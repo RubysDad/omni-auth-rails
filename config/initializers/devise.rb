@@ -278,4 +278,17 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
   
   config.omniauth :facebook, "APP_ID", "APP_SECRET", callback_url: "https://omnitestfacebook.herokuapp.com/users/auth/facebook/callback"
+    # Other configuration...
+  
+    # ==> OmniAuth
+    # Add a OmniAuth providers.
+    User.omniauth_providers.each do |provider_name|
+      if provider_name == :developer
+        config.omniauth :developer
+      else
+        api_key = ENV["#{provider_name.upcase}_API_KEY"]
+        api_secret = ENV["#{provider_name.upcase}_API_SECRET"]
+        config.omniauth provider_name, api_key, api_secret
+      end
+    end
 end
